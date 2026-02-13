@@ -146,7 +146,6 @@ def evaluate_create(tokens):
     ['CREATE', 'DATABASE', 'utils']
     ['CREATE', 'TABLE', 'utils']
     """
-    print(tokens)
     _, command, name = tokens[:3]
     name = Path(name)
     if command == "DATABASE":
