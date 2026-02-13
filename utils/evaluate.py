@@ -162,7 +162,7 @@ def evaluate_create(tokens):
         if not State.path:
             return "Database not selected."
         create_starter_frame(name, columns_pairs)
-        return f"Table {str(name)} successfully created"
+        return f"Table {str(name)} successfully created."
 
 
 def evaluate_drop(tokens):

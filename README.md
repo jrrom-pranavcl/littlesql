@@ -17,13 +17,25 @@ A small SQL interpreter to interact with CSV files.
 
 ## Multiline REPL:
 
-```
-
+```sql
+> DROP DATABASE company;
+Database company successfully dropped.
+> CREATE DATABASE company;
+Database company successfully created.
+> use company;
+Database company successfully selected.
+> CREATE TABLE employees (\
+    id INT,\
+    name STRING,\
+    salary FLOAT);
+Table employees successfully created
 ```
 
 ## Syntax:
 
 ### Displaying expressions
+
+Used mostly for debugging.
 
 ```sql
 PRINT 355 / 113;
@@ -47,6 +59,8 @@ Database name successfully created.
 
 ### Database deletion
 
+This command will delete the directory and everything inside it.
+
 ```sql
 DROP DATABASE name;
 ```
@@ -56,6 +70,8 @@ Database name successfully dropped.
 ```
 
 ### Displaying all the databases
+
+Shows all the database directories that can be selected in the working directory where the command was ran.
 
 ```sql
 SHOW DATABASES;
@@ -67,6 +83,8 @@ name
 
 ### Selecting a database
 
+In order to perform table operations we must select a database.
+
 ```sql
 USE name;
 ```
@@ -75,4 +93,27 @@ USE name;
 Database name successfully selected.
 ```
 
-### Creating a table
+### Table creation
+
+Note: a database must be selected with `USE` before proceeding.
+
+```sql
+CREATE TABLE employees (\
+    id INT,\
+    name STRING,\
+    salary FLOAT);
+```
+
+```
+Table employees successfully created.
+```
+
+### Table deletion
+
+```sql
+DROP TABLE name;
+```
+
+```
+Table successfully dropped.
+```
