@@ -31,7 +31,9 @@ Database company successfully selected.
 Table employees successfully created
 ```
 
-## Syntax:
+## General Syntax:
+
+We use \\ before the end of a line to indicate multiline strings in the CLI REPL.
 
 ### Displaying expressions
 
