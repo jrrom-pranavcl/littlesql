@@ -2,6 +2,8 @@
 
 A small SQL interpreter to interact with CSV files.
 
+Programmed by: [jrrom](https://github.com/jrrom "jrrom") and [pranavcl](https://github.com/pranavcl "pranavcl")
+
 ## Features:
 
 - Case insensitive
