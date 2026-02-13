@@ -22,7 +22,7 @@ A small SQL interpreter to interact with CSV files.
 Database company successfully dropped.
 > CREATE DATABASE company;
 Database company successfully created.
-> use company;
+> USE company;
 Database company successfully selected.
 > CREATE TABLE employees (\
     id INT,\
@@ -163,7 +163,7 @@ SELECT * FROM employees;
 We can also use the `WHERE` clause to filter entries.
 
 ```sql
-select * from employees where salary > 800 and salary < 1100;
+SELECT * FROM employees WHERE salary > 800 AND salary < 1100;
 ```
 
 ```
@@ -172,5 +172,46 @@ select * from employees where salary > 800 and salary < 1100;
 ╞═════╪══════╪════════╡
 │ 101 ┆ A    ┆ 1000.0 │
 │ 105 ┆ E    ┆ 950.0  │
+└─────┴──────┴────────┘
+```
+
+### Delete values
+
+```sql
+> DELETE FROM employees WHERE name = "D";
+Deleted 1 rows.
+> SELECT * FROM employees;
+┌─────┬──────┬────────┐
+│ id  ┆ name ┆ salary │
+╞═════╪══════╪════════╡
+│ 101 ┆ A    ┆ 1000.0 │
+│ 102 ┆ B    ┆ 1250.5 │
+│ 103 ┆ C    ┆ 750.5  │
+│ 105 ┆ E    ┆ 950.0  │
+└─────┴──────┴────────┘
+```
+
+### Update values
+
+```sql
+> select * from employees;
+┌─────┬──────┬────────┐
+│ id  ┆ name ┆ salary │
+╞═════╪══════╪════════╡
+│ 101 ┆ A    ┆ 1000.0 │
+│ 102 ┆ B    ┆ 1250.5 │
+│ 103 ┆ C    ┆ 750.5  │
+│ 105 ┆ E    ┆ 950.0  │
+└─────┴──────┴────────┘
+> UPDATE employees SET salary = 2000.0 WHERE name = "A";
+Updated 1 rows in employees
+> SELECT * FROM employees;
+┌─────┬──────┬────────┐
+│ id  ┆ name ┆ salary │
+╞═════╪══════╪════════╡
+│ 102 ┆ B    ┆ 1250.5 │
+│ 103 ┆ C    ┆ 750.5  │
+│ 105 ┆ E    ┆ 950.0  │
+│ 101 ┆ A    ┆ 2000.0 │
 └─────┴──────┴────────┘
 ```
