@@ -52,10 +52,10 @@ expression = p.MatchFirst(
 # ==========================================
 
 commands = """
-  CREATE DROP SHOW INSERT DELETE SELECT PRINT USE
+  CREATE DROP SHOW INSERT DELETE SELECT UPDATE PRINT USE
 """
 
-CREATE, DROP, SHOW, INSERT, DELETE, SELECT, PRINT, USE = map(
+CREATE, DROP, SHOW, INSERT, DELETE, SELECT, UPDATE, PRINT, USE = map(
     p.CaselessKeyword, commands.split()
 )
 
@@ -99,6 +99,13 @@ statements = {
             p.CaselessKeyword("WHERE") + expressions["boolean"][0]
         ),
         evaluate_select,
+    ),
+    "UPDATE": (
+        UPDATE
+        + (p.pyparsing_common.identifier) + p.CaselessKeyword("SET")
+        + p.Group(p.DelimitedList(p.pyparsing_common.identifier + EQ + datatype))
+        + p.CaselessKeyword("WHERE") + expressions["boolean"][0],
+        evaluate_update
     ),
     "PRINT": (PRINT + expression, evaluate_print),
     "USE": (USE + p.pyparsing_common.identifier, evaluate_use),

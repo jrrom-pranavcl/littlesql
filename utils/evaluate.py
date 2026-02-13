@@ -131,7 +131,6 @@ def create_starter_frame(name, constraint_pairs: list[list[str]]):
     df = pl.DataFrame([constraints], schema=columns, orient="row")
     df.write_csv((State.path / name).with_suffix(".csv"))
 
-
 # ==========================================
 # Statements
 # ==========================================
@@ -296,6 +295,44 @@ def evaluate_select(tokens):
     df = df.select(*selected)
 
     return clean_table(df)
+
+@check_if_state_path_exists
+def evaluate_update(tokens):
+    """
+    Format:
+    ['UPDATE', 'student', 'SET', ['marks', '=', 120], 'WHERE', ['name', '=', 'jerome']]
+    ['UPDATE', 'student', 'SET', ['name', '=', 'jerome2', 'marks', '=', 120], 'WHERE', ['name', '=', 'jerome', 'AND', 'marks', '=', 100]]
+    """
+    table, updated = tokens[1], tokens[3]
+    file = database_location(table)
+    if not file.exists():
+        return f"The table {table} does not exist in the database"
+    
+    df = pl.read_csv(file)
+    constraints_row = df.row(0)  # Save constraints
+    
+    df = cast_cols_to_avoid_str_failure(df)
+    
+    try:
+        to_update = filter_df(df, tokens[5])
+    except Exception as e:
+        return f"{e}"
+    
+    for i in range(0, len(updated), 3):
+        to_update = to_update.with_columns(
+            pl.lit(updated[i + 2]).alias(updated[i])
+        )
+    
+    df_without_old = df.join(filter_df(df, tokens[5]), on=df.columns, how="anti")
+    df = pl.concat([df_without_old, to_update])
+    
+    df_as_strings = df.select([pl.col(c).cast(pl.String) for c in df.columns])
+    constraints_df = pl.DataFrame([constraints_row], schema=df.columns, orient="row")
+    final_df = pl.concat([constraints_df, df_as_strings])
+    
+    final_df.write_csv(file)
+    
+    return f"Updated {len(to_update)} rows in {table}"
 
 # =======
 # Utility
