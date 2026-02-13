@@ -1,9 +1,10 @@
 from dataclasses import dataclass
-from pathlib import Path
 from datetime import datetime
+from pathlib import Path
 import json
-import pyparsing as p
 import os
+import polars as pl
+import pyparsing as p
 import shutil
 
 # ==========================================
@@ -20,7 +21,7 @@ def is_database(dir: Path):
 
 @dataclass
 class State:
-    path: Path
+    path: Path | None = None
 
 # ==========================================
 # Expressions
@@ -36,6 +37,10 @@ def evaluate_values(tokens):
         result.append(token)
     return [result]
 
+def create_table_csv(constraint_pairs : list[list[str]]):
+    print("TODO")
+    
+        
 # ==========================================
 # Statements
 # ==========================================
@@ -45,7 +50,7 @@ def evaluate_values(tokens):
 # =======
 
 def evaluate_create(tokens):
-    _, command, dir = tokens
+    _, command, dir = tokens[:3]
     dir = Path(dir)
     if (command == "DATABASE"):
         config = create_config()
@@ -55,6 +60,12 @@ def evaluate_create(tokens):
         with (dir / "database.json").open("w", encoding="utf-8") as f:
             json.dump(config, f, indent=4)
         return f"Database {str(dir)} successfully created."
+    if (command == "TABLE"):
+        columns = tokens[3]
+        if not State.path:
+            return "Database not selected."
+        
+        
         
 def evaluate_drop(tokens):
     _, command, dir = tokens

@@ -18,6 +18,7 @@
               (ps: with ps; [
                 pyparsing
                 black
+                polars
               ])
             )
             basedpyright

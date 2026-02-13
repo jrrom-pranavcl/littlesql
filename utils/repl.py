@@ -55,12 +55,19 @@ commands = """
 
 CREATE, DROP, SHOW, PRINT, USE = map(p.CaselessKeyword, commands.split())
 
-create_subcommands = p.MatchFirst(map(p.CaselessKeyword, "DATABASE TABLE".split()))
+column = p.Group(p.pyparsing_common.identifier + datatype_constraints)
+create_subcommands = p.MatchFirst([
+    (p.CaselessKeyword("DATABASE") + p.pyparsing_common.identifier),
+    (
+        p.CaselessKeyword("TABLE") + p.pyparsing_common.identifier
+        + p.Group(LP + p.DelimitedList(column) + RP)
+    )
+])
 drop_subcommands = p.MatchFirst(map(p.CaselessKeyword, "DATABASE TABLE".split()))
 show_subcommands = p.MatchFirst(map(p.CaselessKeyword, "DATABASES TABLES".split()))
 
 statements = {
-    "CREATE": (CREATE + create_subcommands + p.pyparsing_common.identifier, evaluate_create),
+    "CREATE": (CREATE + create_subcommands, evaluate_create),
     "DROP": (DROP + drop_subcommands + p.pyparsing_common.identifier, evaluate_drop),
     "SHOW": (SHOW + show_subcommands, evaluate_show),
     "PRINT": (PRINT + expression, evaluate_print),
