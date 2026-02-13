@@ -15,13 +15,29 @@ A small SQL interpreter to interact with CSV files.
   - `UPDATE`
   - `USE`
 
+## Multiline REPL:
+
+```
+
+```
+
 ## Syntax:
+
+### Displaying expressions
+
+```sql
+PRINT 355 / 113;
+```
+
+```
+3.1415929203539825
+```
 
 ### Database creation
 
 In mini-CSVQL, databases are just directories with a `database.json` file. To create a database, you must use the `CREATE DATABASE` command.
 
-```mysql
+```sql
 CREATE DATABASE name;
 ```
 
@@ -29,9 +45,19 @@ CREATE DATABASE name;
 Database name successfully created.
 ```
 
+### Database deletion
+
+```sql
+DROP DATABASE name;
+```
+
+```
+Database name successfully dropped.
+```
+
 ### Displaying all the databases
 
-```mysql
+```sql
 SHOW DATABASES;
 ```
 
@@ -41,10 +67,12 @@ name
 
 ### Selecting a database
 
-```mysql
+```sql
 USE name;
 ```
 
 ```
 Database name successfully selected.
 ```
+
+### Creating a table
