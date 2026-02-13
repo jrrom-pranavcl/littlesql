@@ -134,6 +134,8 @@ def interrupt_return(*interrupts):
 
     return decorator
 
+def parse(line: str):
+    return sql_statement.parseString(line)[0]
 
 @interrupt_return(
     KeyboardInterrupt,
@@ -150,7 +152,7 @@ def repl():
         while line[-1] == "\\":
             line = line[:-1]
             line += input("    ")
-        print(sql_statement.parseString(line)[0])
+        print(parse(line))
 
 
 # ==========================================
