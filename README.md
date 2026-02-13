@@ -22,9 +22,19 @@ A small SQL interpreter to interact with CSV files.
 In mini-CSVQL, databases are just directories with a `database.json` file. To create a database, you must use the `CREATE DATABASE` command.
 
 ```sql
-CREATE DATABASE name;
+> CREATE DATABASE name;
 ```
 
 ```
 Database name successfully created.
+```
+
+### Displaying all the databases
+
+```sql
+> SHOW DATABASES;
+```
+
+```
+name
 ```
