@@ -50,12 +50,22 @@ expression = p.MatchFirst(
 # ==========================================
 
 commands = """
-  CREATE PRINT
+  CREATE DROP SHOW PRINT USE
 """
 
-INSERT, PRINT = map(p.CaselessKeyword, commands.split())
+CREATE, DROP, SHOW, PRINT, USE = map(p.CaselessKeyword, commands.split())
 
-statements = {"PRINT": (PRINT + expression, evaluate_print)}
+create_subcommands = p.MatchFirst(map(p.CaselessKeyword, "DATABASE TABLE".split()))
+drop_subcommands = p.MatchFirst(map(p.CaselessKeyword, "DATABASE TABLE".split()))
+show_subcommands = p.MatchFirst(map(p.CaselessKeyword, "DATABASES TABLES".split()))
+
+statements = {
+    "CREATE": (CREATE + create_subcommands + p.pyparsing_common.identifier, evaluate_create),
+    "DROP": (DROP + drop_subcommands + p.pyparsing_common.identifier, evaluate_drop),
+    "SHOW": (SHOW + show_subcommands, evaluate_show),
+    "PRINT": (PRINT + expression, evaluate_print),
+    "USE": (USE + p.pyparsing_common.identifier, evaluate_use),
+}
 
 sql_statement = p.MatchFirst(grammar for grammar, _ in statements.values()) + SC.suppress()
 
@@ -79,14 +89,14 @@ def interrupt_return(*interrupts):
     return decorator
 
 
-@interrupt_return(KeyboardInterrupt, p.ParseException, EOFError, ZeroDivisionError)
+@interrupt_return(KeyboardInterrupt, p.ParseException, EOFError, ZeroDivisionError, IndexError, PermissionError)
 def repl():
     while True:
         line = input("> ")
         # Multiline support
         while (line[-1] == "\\"):
             line = line[:-1]
-            line += input("  ")
+            line += input("    ")
         print(
             sql_statement.parseString(line)[0]
         )
