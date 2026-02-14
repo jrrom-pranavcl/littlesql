@@ -8,7 +8,7 @@ Programmed by: [jrrom](https://github.com/jrrom "jrrom") and [pranavcl](https://
 
 1. Clone the repository: 
 
-`git clone https://github.com/jrrom-pranavcl/mini-csvql`
+`git clone https://github.com/jrrom-pranavcl/littlesql`
 
 2. Create a virtual environment: 
 
