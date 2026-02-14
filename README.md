@@ -1,8 +1,26 @@
-# mini-CSVQL
+# LittleSQL
 
 A small SQL interpreter to interact with CSV files.
 
 Programmed by: [jrrom](https://github.com/jrrom "jrrom") and [pranavcl](https://github.com/pranavcl "pranavcl")
+
+## Building from Source
+
+1. Clone the repository: 
+
+`git clone https://github.com/jrrom-pranavcl/mini-csvql`
+
+2. Create a virtual environment: 
+
+`python -m venv venv`
+
+3. Install dependencies:
+
+`./venv/bin/pip install -r requirements.txt`
+
+4. Run:
+
+`./venv/bin/python . repl` or `./venv/bin/python . server`
 
 ## Features:
 
@@ -51,7 +69,7 @@ PRINT 355 / 113;
 
 ### Database creation
 
-In mini-CSVQL, databases are just directories with a `database.json` file. To create a database, you must use the `CREATE DATABASE` command.
+In LittleSQL, databases are just directories with a `database.json` file. To create a database, you must use the `CREATE DATABASE` command.
 
 ```sql
 CREATE DATABASE name;
@@ -219,3 +237,7 @@ Updated 1 rows in employees
 │ 101 ┆ A    ┆ 2000.0 │
 └─────┴──────┴────────┘
 ```
+
+## License
+
+Licensed under the [GNU GPL-3.0 License](https://github.com/jrrom-pranavcl/mini-csvql/blob/main/LICENSE)

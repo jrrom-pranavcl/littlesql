@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>LittleSQL</title>
+    </head>
+
+    <body>
+        <h1>LittleSQL</h1>
+        <h2>Welcome to the frontend for LittleSQL!</h2>
+        <textarea style="width: min(calc(100% - 8px), 500px); height: 300px;" placeholder="Your SQL query here..."></textarea>
+        <button style="display: block;margin-top: 1em;" onclick="run()">Run Query</button>
+        <pre id="output">Output will appear here.</pre>
+    </body>
+
+    <script>
+        async function run() {
+            query = document.querySelector("textarea").value;
+            if(!query) return;
+            console.log(`Running query ${query}...`);
+            var resp = await fetch("/query", {
+                method: "POST",
+                body: query
+            });
+            var resp_txt = await resp.text();
+            console.log(resp_txt);
+            resp_txt = resp_txt.replaceAll("\n", "<br>");
+            document.getElementById("output").innerHTML = resp_txt;
+        }
+    </script>
+</html>
